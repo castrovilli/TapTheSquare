@@ -45,7 +45,9 @@
 
 - (id)initWithSize:(CGSize)size
 {
+#ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
+#endif
 
     self = [super initWithSize:size];
 
@@ -89,7 +91,9 @@
 
 - (void)performTouches:(NSSet *)touches
 {
+#ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
+#endif
 
     for (UITouch *touch in touches) {
         CGPoint pointInSKScene = [self
@@ -183,7 +187,9 @@
 
 - (void)startGame
 {
+#ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
+#endif
 
 //    инициализация таймера переключения уровней
     self.levelChangeTimer = [NSTimer timerWithTimeInterval:5.0 // seconds
@@ -210,7 +216,9 @@
 
 - (void)resetGameData
 {
+#ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
+#endif
 
     self.gamesCount++;
     self.firstScreenVisible = (self.gamesCount == 0);
@@ -241,9 +249,9 @@
                           @0.005] mutableCopy];
 
     self.unusedCells = [NSMutableSet new];
-    for (NSInteger i = 0; i < [self fieldMaxCols]; i++) {
-        for (NSInteger j = 0; j < [self fieldMaxRows]; j++) {
-            NSString *cellName = [NSString stringWithFormat:@"%d_%d", i, j];
+    for (NSUInteger i = 0; i < [self fieldMaxCols]; i++) {
+        for (NSUInteger j = 0; j < [self fieldMaxRows]; j++) {
+            NSString *cellName = [NSString stringWithFormat:@"%@_%@", @(i), @(j)];
             [self.unusedCells addObject:cellName];
         }
     }
@@ -260,7 +268,9 @@
 
 - (void)generateNewSquare:(NSTimer *)timer
 {
+#ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
+#endif
 
 //    если отображается реклама не будем обновлять поле и добавлять новых квадратиков
     if (self.isAdVisible)
@@ -299,7 +309,9 @@
         SKAction *waitAction = [SKAction waitForDuration:2.0];
         SKAction *removeAction = [SKAction removeFromParent];
         SKAction *restoreCell = [SKAction runBlock:^{
-            NSString *cellName = [NSString stringWithFormat:@"%d_%d", col, row];
+            NSString *cellName = [NSString stringWithFormat:@"%@_%@",
+                                                            @(col),
+                                                            @(row)];
 
             [weakSelf.unusedCells addObject:cellName];
             [weakSelf.usedCells removeObject:cellName];
@@ -378,9 +390,8 @@
     if (self.unusedCells.count == 0)
         return deadPoint;
 
-    NSString *randomCellName = [self
-            .unusedCells allObjects][arc4random_uniform(self.unusedCells
-            .count)];
+    u_int32_t index = arc4random_uniform(self.unusedCells.count);
+    NSString *randomCellName = [self.unusedCells allObjects][(NSUInteger)index];
 
     if (randomCellName == nil)
         return deadPoint;
@@ -400,7 +411,9 @@
 
 - (void)gameOver
 {
+#ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
+#endif
 
     self.gameOverBool = YES;
 
@@ -447,7 +460,7 @@
 
 //    добавляем надпись с кол-во очков ниже надписи с концом игры
     SKLabelNode *finalScoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
-    finalScoreLabel.text = [NSString stringWithFormat:@"%09d", self.score];
+    finalScoreLabel.text = [NSString stringWithFormat:@"%09lu", (unsigned long)self.score];
     finalScoreLabel.fontColor = [SKColor redColor];
     finalScoreLabel.fontSize = 27;
     finalScoreLabel
@@ -516,7 +529,7 @@
                                                     removeFromParent]];
 
     SKLabelNode *pointsLabelNode = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
-    pointsLabelNode.text = [NSString stringWithFormat:@"+%d", points];
+    pointsLabelNode.text = [NSString stringWithFormat:@"+%lu", (unsigned long)points];
     pointsLabelNode.fontSize = 27;
     pointsLabelNode.position = position;
     pointsLabelNode.fontColor = [SKColor yellowColor];
@@ -530,14 +543,16 @@
 - (void)updateScoreLabel
 {
     SKLabelNode *score = (SKLabelNode *) [self childNodeWithName:@"scoreLabel"];
-    score.text = [NSString stringWithFormat:@"Score: %09d", self.score];
+    score.text = [NSString stringWithFormat:@"Score: %09lu", (unsigned long)self.score];
 }
 
 #pragma mark - Layers
 
 - (SKNode *)firstScreenLayer
 {
+#ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
+#endif
 
     SKLabelNode *playLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
     playLabel.text = @"Tap me!";
@@ -560,7 +575,7 @@
     SKLabelNode *scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
     scoreLabel.fontColor = [SKColor yellowColor];
     scoreLabel.fontSize = 27;
-    scoreLabel.text = [NSString stringWithFormat:@"Score: %09d", self.score];
+    scoreLabel.text = [NSString stringWithFormat:@"Score: %09lu", (unsigned long)self.score];
     scoreLabel.zPosition = 1;
     scoreLabel.name = @"scoreLabel";
     scoreLabel.position = CGPointMake(130, [self screenHeight] - scoreLabel

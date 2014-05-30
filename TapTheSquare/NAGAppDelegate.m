@@ -11,14 +11,13 @@
 #import "Flurry.h"
 #import "FlurryAds.h"
 #import "NAGViewController.h"
-#import "NAGMyScene.h"
 
 @implementation NAGAppDelegate
 
 + (void)initialize
 {
     //    настраиваем окно с вопросом об оценке приложения
-    [iRate sharedInstance].appStoreID = -1; // TODO
+    [iRate sharedInstance].appStoreID = 884144338;
     [iRate sharedInstance].applicationName = @"Tap The Square";
     [iRate sharedInstance].daysUntilPrompt = 0.1;
     [iRate sharedInstance].usesUntilPrompt = 2;
