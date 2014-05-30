@@ -21,7 +21,7 @@
 @property NSInteger gamesCount;
 
 // очки, стоимости
-@property NSUInteger score;
+@property (nonatomic) NSUInteger score;
 @property NSUInteger cellPoints;
 
 // таймер для генерации квадратиков
@@ -68,6 +68,18 @@
     }
 
     return self;
+}
+
+#pragma mark - Properties
+
+- (void)setScore:(NSUInteger)score
+{
+    NSString *scoreLength = [NSString stringWithFormat:@"%09lu", (unsigned long)score];
+
+    if (scoreLength.length > 9)
+        _score = 0;
+    else
+        _score = score;
 }
 
 #pragma mark - Scene
