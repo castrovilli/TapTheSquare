@@ -14,7 +14,7 @@
 
 @interface NAGMyScene ()
 @property (nonatomic, getter=isFirstScreenVisible) BOOL firstScreenVisible;
-@property (nonatomic, getter=isGameOver) BOOL gameOver;
+@property (nonatomic, getter=isGameOver) BOOL gameOverBool;
 @property (nonatomic, getter=isAdVisible) BOOL adVisible;
 
 // кол-во игры сыграных
@@ -97,7 +97,7 @@
                            toScene:self];
         SKNode *touchedNode = [self nodeAtPoint:pointInSKScene];
 
-        if (self.isGameOver) {
+        if (self.gameOverBool) {
 //            хак здесь для того, чтобы при move табличка финальная не убиралась
 //            поэтому и проверка на активность игрового поля
             if (!self.userInteractionEnabled)
@@ -215,7 +215,7 @@
     self.gamesCount++;
     self.firstScreenVisible = (self.gamesCount == 0);
 
-    self.gameOver = NO;
+    self.gameOverBool = NO;
     self.score = 0;
     self.cellPoints = 1 << 0;
     self.timerTimeLevelIndex = 0;
@@ -224,12 +224,21 @@
                           @0.6,
                           @0.4,
                           @0.2,
+                          @0.1,
                           @0.09,
+                          @0.08,
                           @0.07,
+                          @0.06,
                           @0.05,
+                          @0.04,
                           @0.03,
+                          @0.02,
                           @0.01,
-                          @0.001] mutableCopy];
+                          @0.009,
+                          @0.008,
+                          @0.007,
+                          @0.006,
+                          @0.005] mutableCopy];
 
     self.unusedCells = [NSMutableSet new];
     for (NSInteger i = 0; i < [self fieldMaxCols]; i++) {
@@ -393,7 +402,7 @@
 {
     NSLog(@"%s", __FUNCTION__);
 
-    self.gameOver = YES;
+    self.gameOverBool = YES;
 
 //    блокируем игровую сцену
     self.userInteractionEnabled = NO;
@@ -410,7 +419,10 @@
     self.paused = YES;
     [self enumerateChildNodesWithName:@"*"
                            usingBlock:^(SKNode *node, BOOL *stop) {
-        [node removeAllActions];
+        if ([node.name isEqualToString:@"pointsLabel"])
+            [node removeFromParent];
+        else
+            [node removeAllActions];
     }];
     self.paused = NO;
 

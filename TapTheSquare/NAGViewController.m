@@ -23,10 +23,10 @@
 #endif
 
     // Create and configure the scene.
-    SKScene *scene = [NAGMyScene sceneWithSize:skView.bounds.size];
+    self.scene = [NAGMyScene sceneWithSize:skView.bounds.size];
 
     // Present the scene.
-    [skView presentScene:scene];
+    [skView presentScene:self.scene];
 }
 
 - (BOOL)shouldAutorotate

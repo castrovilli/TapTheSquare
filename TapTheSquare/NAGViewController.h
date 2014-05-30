@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
 
+@class NAGMyScene;
+
 @interface NAGViewController : UIViewController
+
+@property NAGMyScene *scene;
 
 @end
