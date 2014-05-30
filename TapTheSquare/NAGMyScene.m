@@ -11,14 +11,6 @@
 #define TILE_HEIGHT 50
 #define TILE_WIDTH 50
 
-typedef enum
-{
-    NAGFieldTileStandart,
-    NAGFieldTileAd,
-    NAGFieldTileClear,
-    NAGFieldTileFail
-} NAGFieldTileType;
-
 @interface NAGMyScene ()
 @property (nonatomic, getter=isFirstScreenVisible) BOOL firstScreenVisible;
 
@@ -65,7 +57,7 @@ typedef enum
 
 - (void)update:(NSTimeInterval)currentTime
 {
-
+    [self updateScoreLabel];
 }
 
 #pragma mark - Touches
@@ -102,26 +94,39 @@ typedef enum
         } else if ([touchedNode.name isEqualToString:@"adTile"]) {
             NSLog(@"===> AD TILE");
         } else if ([touchedNode.name isEqualToString:@"clearTile"]) {
-//            очищаем поле и добавляем пользователю баллы = кол-ву клеток на поле
-            self.score += self.cellPoints * self.usedCells.count;
+//            добавляем пользователю баллы = кол-ву клеток на поле
+            NSUInteger winPoints = self.cellPoints * self.usedCells.count;
+            self.score += winPoints;
 
 //            освобождаем занятые ячейки
             [self.unusedCells unionSet:self.usedCells];
             [self.usedCells removeAllObjects];
 
 //            очищаем поле
+            [self enumerateChildNodesWithName:@"*"
+                                   usingBlock:^(SKNode *node, BOOL *stop) {
+                if (![node.name isEqualToString:@"scoreLabel"])
+                    [node removeFromParent];
+            }];
 
+//            анимируем суммарный выигрыш пользователя
+            [self animatePopupWithPoints:winPoints
+                              inPosition:pointInSKScene];
         } else if ([touchedNode.name isEqualToString:@"failTile"]) {
-            NSLog(@"===> FAIL TILE");
+            [self gameOver];
         } else if ([touchedNode.name isEqualToString:@"standartTile"]) {
             self.score += self.cellPoints;
 
-            [self updateScoreLabel];
+            NSString *touchedNodeUniqueName = [NSString stringWithFormat:@"%@_%@",
+                                                                         touchedNode
+                                                                                 .userData[@"col"],
+                                                                         touchedNode
+                                                                                 .userData[@"row"]];
+            [self.usedCells removeObject:touchedNodeUniqueName];
+            [self.unusedCells addObject:touchedNodeUniqueName];
 
-            [self.usedCells removeObject:touchedNode.name];
-            [self.unusedCells addObject:touchedNode.name];
-
-            [self animatePopupWithPointsInPosition:pointInSKScene];
+            [self animatePopupWithPoints:self.cellPoints
+                              inPosition:pointInSKScene];
 
             [touchedNode removeFromParent];
         }
@@ -210,12 +215,18 @@ typedef enum
 
     SKSpriteNode *square = [self randomSquareTile];
     square.position = newTilePosition;
-    if (square.name == nil) {
-        square.name = [NSString stringWithFormat:@"%d_%d", col, row];
-    } else {
-        __weak NAGMyScene *weakSelf = self;
+    square.anchorPoint = CGPointMake(0.08, 0.11);
+    square.userData = [@{
+            @"col" : @(col),
+            @"row" : @(row)
+    } mutableCopy];
 
 //        добавляем действие по автоматическому удалению особых квадратиков
+    if ([square.name isEqualToString:@"adTile"] || [square
+            .name isEqualToString:@"failTile"] || [square
+            .name isEqualToString:@"clearTile"]) {
+
+        __weak NAGMyScene *weakSelf = self;
         SKAction *waitAction = [SKAction waitForDuration:2.0];
         SKAction *removeAction = [SKAction removeFromParent];
         SKAction *restoreCell = [SKAction runBlock:^{
@@ -224,7 +235,9 @@ typedef enum
             [weakSelf.unusedCells addObject:cellName];
             [weakSelf.usedCells removeObject:cellName];
         }];
-        SKAction *sequenceAction = [SKAction sequence:@[waitAction, restoreCell, removeAction]];
+        SKAction *sequenceAction = [SKAction sequence:@[waitAction,
+                                                        restoreCell,
+                                                        removeAction]];
 
         [square runAction:sequenceAction];
     }
@@ -239,6 +252,7 @@ typedef enum
 
     if (0 <= value && value <= 85) {
         node = [SKSpriteNode spriteNodeWithImageNamed:@"square"];
+        node.name = @"standartTile";
     } else if (85 < value && value <= 95) {
         if (arc4random_uniform(2) == 1) {
             node = [SKSpriteNode spriteNodeWithImageNamed:@"square_clear"];
@@ -251,8 +265,6 @@ typedef enum
         node = [SKSpriteNode spriteNodeWithImageNamed:@"square_ad"];
         node.name = @"adTile";
     }
-
-    node.anchorPoint = CGPointMake(0.08, 0.11);
 
     return node;
 }
@@ -326,9 +338,10 @@ typedef enum
     self.timer = nil;
 }
 
-- (void)animatePopupWithPointsInPosition:(CGPoint)point
+- (void)animatePopupWithPoints:(NSUInteger)points
+                    inPosition:(CGPoint)position
 {
-    SKAction *moveUp = [SKAction moveToY:point.y + 100 duration:0.2];
+    SKAction *moveUp = [SKAction moveToY:position.y + 100 duration:0.2];
     moveUp.timingMode = SKActionTimingEaseIn;
     SKAction *fadeOut = [SKAction fadeOutWithDuration:0.2];
     fadeOut.timingMode = SKActionTimingEaseIn;
@@ -339,9 +352,9 @@ typedef enum
                                                     removeFromParent]];
 
     SKLabelNode *pointsLabelNode = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
-    pointsLabelNode.text = [NSString stringWithFormat:@"+%d", self.cellPoints];
+    pointsLabelNode.text = [NSString stringWithFormat:@"+%d", points];
     pointsLabelNode.fontSize = 27;
-    pointsLabelNode.position = point;
+    pointsLabelNode.position = position;
     pointsLabelNode.fontColor = [SKColor yellowColor];
 
     [pointsLabelNode runAction:sequenceAction];
