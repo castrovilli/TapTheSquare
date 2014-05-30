@@ -13,6 +13,7 @@
 
 @interface NAGMyScene ()
 @property (nonatomic, getter=isFirstScreenVisible) BOOL firstScreenVisible;
+@property (nonatomic, getter=isGameOver) BOOL gameOver;
 
 // очки, стоимости
 @property NSUInteger score;
@@ -84,7 +85,9 @@
                            toScene:self];
         SKNode *touchedNode = [self nodeAtPoint:pointInSKScene];
 
-        if (self.firstScreenVisible) {
+        if (self.isGameOver) {
+            NSLog(@"SOMETHING GOES HERE");
+        } else if (self.firstScreenVisible) {
             if ([touchedNode.name isEqualToString:@"playButton"]) {
                 [touchedNode removeFromParent];
                 self.firstScreenVisible = NO;
@@ -167,6 +170,7 @@
     NSLog(@"%s", __FUNCTION__);
 
     self.firstScreenVisible = YES;
+    self.gameOver = NO;
     self.score = 0;
     self.cellPoints = 1 << 0;
     self.timerTimeLevelIndex = 0;
@@ -250,10 +254,10 @@
     SKSpriteNode *node;
     NSInteger value = arc4random_uniform(100);
 
-    if (0 <= value && value <= 85) {
+    if (0 <= value && value <= 90) {
         node = [SKSpriteNode spriteNodeWithImageNamed:@"square"];
         node.name = @"standartTile";
-    } else if (85 < value && value <= 95) {
+    } else if (90 < value && value <= 95) {
         if (arc4random_uniform(2) == 1) {
             node = [SKSpriteNode spriteNodeWithImageNamed:@"square_clear"];
             node.name = @"clearTile";
@@ -329,6 +333,8 @@
 {
     NSLog(@"%s", __FUNCTION__);
 
+    self.gameOver = YES;
+
 //    останавливаем основной таймер переключения уровней
     [self.levelChangeTimer invalidate];
     self.levelChangeTimer = nil;
@@ -336,6 +342,14 @@
 //    останавливаем таймер, который заполняет квадратиками поле
     [self.timer invalidate];
     self.timer = nil;
+
+//    отменим все actions
+    self.paused = YES;
+    [self enumerateChildNodesWithName:@"*"
+                           usingBlock:^(SKNode *node, BOOL *stop) {
+        [node removeAllActions];
+    }];
+    self.paused = NO;
 }
 
 - (void)animatePopupWithPoints:(NSUInteger)points
