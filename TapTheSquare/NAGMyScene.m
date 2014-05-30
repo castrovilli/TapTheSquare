@@ -15,6 +15,9 @@
 @property (nonatomic, getter=isFirstScreenVisible) BOOL firstScreenVisible;
 @property (nonatomic, getter=isGameOver) BOOL gameOver;
 
+// кол-во игры сыграных
+@property NSInteger gamesCount;
+
 // очки, стоимости
 @property NSUInteger score;
 @property NSUInteger cellPoints;
@@ -42,6 +45,7 @@
     self = [super initWithSize:size];
 
     if (self) {
+        self.gamesCount = -1;
         self.backgroundColor = [SKColor colorWithRed:0.388
                                                green:0.259
                                                 blue:0.875
@@ -86,7 +90,10 @@
         SKNode *touchedNode = [self nodeAtPoint:pointInSKScene];
 
         if (self.isGameOver) {
-            NSLog(@"SOMETHING GOES HERE");
+            [[self childNodeWithName:@"backgroundColorLayer"] removeFromParent];
+
+            [self resetGameData];
+            [self startGame];
         } else if (self.firstScreenVisible) {
             if ([touchedNode.name isEqualToString:@"playButton"]) {
                 [touchedNode removeFromParent];
@@ -116,6 +123,9 @@
             [self animatePopupWithPoints:winPoints
                               inPosition:pointInSKScene];
         } else if ([touchedNode.name isEqualToString:@"failTile"]) {
+//            удаляем всплывшие очки, иначе они просто "заморозятся" при удалении действий с ноды
+            [[self childNodeWithName:@"pointsLabel"] removeFromParent];
+
             [self gameOver];
         } else if ([touchedNode.name isEqualToString:@"standartTile"]) {
             self.score += self.cellPoints;
@@ -169,7 +179,9 @@
 {
     NSLog(@"%s", __FUNCTION__);
 
-    self.firstScreenVisible = YES;
+    self.gamesCount++;
+    self.firstScreenVisible = (self.gamesCount == 0);
+
     self.gameOver = NO;
     self.score = 0;
     self.cellPoints = 1 << 0;
@@ -195,6 +207,13 @@
     }
 
     self.usedCells = [NSMutableSet new];
+
+//    очистим поле от всех тайлов
+    [self enumerateChildNodesWithName:@"*"
+                           usingBlock:^(SKNode *node, BOOL *stop) {
+        if (![node.name isEqualToString:@"scoreLabel"])
+            [node removeFromParent];
+    }];
 }
 
 - (void)generateNewSquare:(NSTimer *)timer
@@ -350,6 +369,44 @@
         [node removeAllActions];
     }];
     self.paused = NO;
+
+//    накладываем на экран темный фон
+    SKColor *backgroundColor = [SKColor colorWithWhite:0.0
+                                                 alpha:0.7];
+    SKSpriteNode *blackBackground = [SKSpriteNode spriteNodeWithColor:backgroundColor
+                                                                 size:self.size];
+    blackBackground.zPosition = 2;
+    blackBackground.anchorPoint = CGPointZero;
+    blackBackground.name = @"backgroundColorLayer";
+
+//    game over надпись добавим
+    SKLabelNode *gameOverLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
+    gameOverLabel.text = @"Game Over";
+    gameOverLabel.fontColor = [SKColor yellowColor];
+    gameOverLabel.fontSize = 37;
+    gameOverLabel.position = CGPointMake([self screenWidth] / (CGFloat)2.0, [self screenHeight] / (CGFloat)2.0);
+    [blackBackground addChild:gameOverLabel];
+
+//    добавляем надпись с кол-во очков ниже надписи с концом игры
+    SKLabelNode *finalScoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
+    finalScoreLabel.text = [NSString stringWithFormat:@"%09d", self.score];
+    finalScoreLabel.fontColor = [SKColor redColor];
+    finalScoreLabel.fontSize = 27;
+    finalScoreLabel.position = CGPointMake([self screenWidth] / (CGFloat)2.0, gameOverLabel.position.y - 30);
+    [blackBackground addChild:finalScoreLabel];
+
+//    добавляем кнопку Play Again
+    SKLabelNode *playAgainButton = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
+    playAgainButton.text = @"Tap again!";
+    playAgainButton.fontColor = [SKColor colorWithRed:0.435
+                                                green:0.914
+                                                 blue:0.447
+                                                alpha:1.0];
+    playAgainButton.fontSize = 47;
+    playAgainButton.position = CGPointMake([self screenWidth] / (CGFloat)2.0, finalScoreLabel.position.y - 100);
+    [blackBackground addChild:playAgainButton];
+
+    [self addChild:blackBackground];
 }
 
 - (void)animatePopupWithPoints:(NSUInteger)points
@@ -370,6 +427,7 @@
     pointsLabelNode.fontSize = 27;
     pointsLabelNode.position = position;
     pointsLabelNode.fontColor = [SKColor yellowColor];
+    pointsLabelNode.name = @"pointsLabel";
 
     [pointsLabelNode runAction:sequenceAction];
 
@@ -410,7 +468,7 @@
     scoreLabel.fontColor = [SKColor yellowColor];
     scoreLabel.fontSize = 27;
     scoreLabel.text = [NSString stringWithFormat:@"Score: %09d", self.score];
-    scoreLabel.zPosition = 5;
+    scoreLabel.zPosition = 1;
     scoreLabel.name = @"scoreLabel";
     scoreLabel.position = CGPointMake(130, [self screenHeight] - scoreLabel
             .calculateAccumulatedFrame.size.height);
