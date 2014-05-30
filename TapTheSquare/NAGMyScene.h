@@ -7,7 +7,8 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "FlurryAdDelegate.h"
+#import "FlurryAds.h"
 
-@interface NAGMyScene : SKScene
-
+@interface NAGMyScene : SKScene <FlurryAdDelegate>
 @end

@@ -15,6 +15,7 @@
 @interface NAGMyScene ()
 @property (nonatomic, getter=isFirstScreenVisible) BOOL firstScreenVisible;
 @property (nonatomic, getter=isGameOver) BOOL gameOver;
+@property (nonatomic, getter=isAdVisible) BOOL adVisible;
 
 // кол-во игры сыграных
 @property NSInteger gamesCount;
@@ -49,6 +50,8 @@
     self = [super initWithSize:size];
 
     if (self) {
+        [FlurryAds setAdDelegate:self];
+
         [self authorizeLocalPlayer];
 
         self.gamesCount = -1;
@@ -76,13 +79,11 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"%s", __FUNCTION__);
     [self performTouches:touches];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"%s", __FUNCTION__);
     [self performTouches:touches];
 }
 
@@ -116,7 +117,25 @@
                 [self addChild:[self scoreLayer]];
             }
         } else if ([touchedNode.name isEqualToString:@"adTile"]) {
-            NSLog(@"===> AD TILE");
+            if ([FlurryAds adReadyForSpace:@"GAME_VIEW"]) {
+                [FlurryAds displayAdForSpace:@"GAME_VIEW" onView:self.view];
+            } else {
+                unsigned long winPoints = 2ul * self.cellPoints;
+                NSString *cellName = [NSString stringWithFormat:@"%@_%@",
+                                                                touchedNode
+                                                                        .userData[@"col"],
+                                                                touchedNode
+                                                                        .userData[@"row"]];
+
+                self.score += winPoints;
+
+                [self.usedCells removeObject:cellName];
+                [self.unusedCells addObject:cellName];
+
+                [self animatePopupWithPoints:winPoints
+                                  inPosition:pointInSKScene];
+                [touchedNode removeFromParent];
+            }
         } else if ([touchedNode.name isEqualToString:@"clearTile"]) {
 //            добавляем пользователю баллы = кол-ву клеток на поле
             NSUInteger winPoints = self.cellPoints * self.usedCells.count;
@@ -234,6 +253,10 @@
 {
     NSLog(@"%s", __FUNCTION__);
 
+//    если отображается реклама не будем обновлять поле и добавлять новых квадратиков
+    if (self.isAdVisible)
+        return;
+
     CGPoint newTilePosition = [self randomSquarePosition];
     CGPoint deadPoint = CGPointMake(-1, -1);
 
@@ -308,6 +331,10 @@
 
 - (void)changeGameLevel:(NSTimer *)timer
 {
+//    нет смысла переключаться на новый уровень, если пользователь смотрит рекламу
+    if (self.isAdVisible)
+        return;
+
 //    изменяем интервалы/скорость заполнения игрового поля
     if (self.timerTimeLevelIndex == self.timerLevels.count - 1) {
         self.timerTimeLevelIndex = 0;
@@ -391,7 +418,8 @@
     SKColor *backgroundColor = [SKColor colorWithWhite:0.0
                                                  alpha:0.7];
     SKSpriteNode *blackBackground = [SKSpriteNode spriteNodeWithColor:backgroundColor
-                                                                 size:self.size];
+                                                                 size:self
+                                                                         .size];
     blackBackground.zPosition = 2;
     blackBackground.anchorPoint = CGPointZero;
     blackBackground.name = @"backgroundColorLayer";
@@ -401,7 +429,8 @@
     gameOverLabel.text = @"Game Over";
     gameOverLabel.fontColor = [SKColor yellowColor];
     gameOverLabel.fontSize = 37;
-    gameOverLabel.position = CGPointMake([self screenWidth] / (CGFloat)2.0, [self screenHeight] / (CGFloat)2.0);
+    gameOverLabel
+            .position = CGPointMake([self screenWidth] / (CGFloat) 2.0, [self screenHeight] / (CGFloat) 2.0);
     [blackBackground addChild:gameOverLabel];
 
 //    добавляем надпись с кол-во очков ниже надписи с концом игры
@@ -409,7 +438,9 @@
     finalScoreLabel.text = [NSString stringWithFormat:@"%09d", self.score];
     finalScoreLabel.fontColor = [SKColor redColor];
     finalScoreLabel.fontSize = 27;
-    finalScoreLabel.position = CGPointMake([self screenWidth] / (CGFloat)2.0, gameOverLabel.position.y - 30);
+    finalScoreLabel
+            .position = CGPointMake([self screenWidth] / (CGFloat) 2.0, gameOverLabel
+            .position.y - 30);
     [blackBackground addChild:finalScoreLabel];
 
 //    добавляем кнопку Play Again
@@ -420,7 +451,9 @@
                                                  blue:0.447
                                                 alpha:1.0];
     playAgainButton.fontSize = 47;
-    playAgainButton.position = CGPointMake([self screenWidth] / (CGFloat)2.0, finalScoreLabel.position.y - 100);
+    playAgainButton
+            .position = CGPointMake([self screenWidth] / (CGFloat) 2.0, finalScoreLabel
+            .position.y - 100);
     [blackBackground addChild:playAgainButton];
 
     [self addChild:blackBackground];
@@ -435,9 +468,11 @@
 //    авторизуем пользователя в ГЦ и отправляем его очки
     __weak NAGMyScene *weakSelf = self;
 
-    if (![GKLocalPlayer localPlayer].isAuthenticated && self.gameCenterAuthViewController != nil) {
+    if (![GKLocalPlayer localPlayer].isAuthenticated && self
+            .gameCenterAuthViewController != nil) {
         [[[UIApplication sharedApplication] keyWindow]
-                .rootViewController presentViewController:self.gameCenterAuthViewController
+                .rootViewController presentViewController:self
+                .gameCenterAuthViewController
                                                  animated:YES
                                                completion:^{
 
@@ -529,7 +564,8 @@
     __weak NAGMyScene *weakSelf = self;
 
     GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
-    localPlayer.authenticateHandler = ^(UIViewController *authController, NSError *error) {
+    localPlayer.authenticateHandler = ^(UIViewController *authController,
+                                        NSError *error) {
         if (authController != nil) {
             weakSelf.gameCenterAuthViewController = authController;
         }
@@ -567,6 +603,30 @@
 - (NSInteger)fieldMaxRows
 {
     return (NSInteger) ([self screenHeight] / TILE_HEIGHT);
+}
+
+#pragma mark - Flurry Ads
+
+- (BOOL)spaceShouldDisplay:(NSString *)adSpace
+              interstitial:(BOOL)interstitial
+{
+    if (interstitial) {
+        self.paused = YES;
+        self.adVisible = YES;
+
+        return YES;
+    }
+
+    return NO;
+}
+
+- (void)spaceDidDismiss:(NSString *)adSpace
+           interstitial:(BOOL)interstitial
+{
+    if (interstitial) {
+        self.paused = NO;
+        self.adVisible = NO;
+    }
 }
 
 @end

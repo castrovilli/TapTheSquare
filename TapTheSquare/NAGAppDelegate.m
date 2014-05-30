@@ -8,6 +8,8 @@
 
 #import "NAGAppDelegate.h"
 #import "iRate.h"
+#import "Flurry.h"
+#import "FlurryAds.h"
 
 @implementation NAGAppDelegate
 
@@ -23,6 +25,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+//    инициализация Flurry
+    [Flurry startSession:@"77Q767FQ4DB73MT9JN4X"];
+    [FlurryAds initialize:self.window.rootViewController];
+
+//    предварительно запрашиваем рекламку
+    [FlurryAds enableTestAds:YES];
+    [FlurryAds fetchAdForSpace:@"GAME_VIEW" frame:self.window.frame size:FULLSCREEN];
+
     // Override point for customization after application launch.
     return YES;
 }
