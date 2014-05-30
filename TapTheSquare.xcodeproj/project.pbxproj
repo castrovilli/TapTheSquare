@@ -17,6 +17,7 @@
 		1A9A02D126157A6F90431ECB /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A0A856670897334C3BA91 /* iRate.m */; };
 		1A9A02E11698153C76E956E5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A028020EA8F045FE36E63 /* Localizable.strings */; };
 		1A9A031B844BE1900515EEC9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0E69CFF693005B73AB86 /* Localizable.strings */; };
+		1A9A032489A20FA64E773D1F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A030190EA72B09E71140B /* GameKit.framework */; };
 		1A9A0327A0E4F8104372181D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0E6BFE9A5663D207F64F /* Localizable.strings */; };
 		1A9A036D2B20FBC1510E4899 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0E038C31DD2605DFF71D /* XCTest.framework */; };
 		1A9A03CAF8D40045818A0963 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A076D2C2C8058F27B2ABA /* Localizable.strings */; };
@@ -97,6 +98,7 @@
 		1A9A029A699774CEAF49B7AD /* NAGAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NAGAppDelegate.m; sourceTree = "<group>"; };
 		1A9A02B25D615DF7F2C02A6F /* he */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = he; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A02FECF3D2FC23B947BE2 /* no */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = no; path = Localizable.strings; sourceTree = "<group>"; };
+		1A9A030190EA72B09E71140B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		1A9A034BFAD84005AE7DADF6 /* sk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sk; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A03745BC2C455538D7371 /* NAGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAGViewController.h; sourceTree = "<group>"; };
 		1A9A03863F0BF474A0BC0A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				1A9A0AF9F67FBF48B98B6F10 /* CoreGraphics.framework in Frameworks */,
 				1A9A08841C2A3DDF244017CC /* UIKit.framework in Frameworks */,
 				1A9A099B01948785D36332BB /* SpriteKit.framework in Frameworks */,
+				1A9A032489A20FA64E773D1F /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +242,7 @@
 				1A9A088B05FA8FCEF319CA31 /* UIKit.framework */,
 				1A9A0D587EA0F94D468E24D8 /* SpriteKit.framework */,
 				1A9A0E038C31DD2605DFF71D /* XCTest.framework */,
+				1A9A030190EA72B09E71140B /* GameKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -646,6 +650,11 @@
 			isa = PBXProject;
 			attributes = {
 				ORGANIZATIONNAME = "Non Atomic Games Inc.";
+				TargetAttributes = {
+					1A9A0045FE74A8D668418333 = {
+						DevelopmentTeam = 2N548588CC;
+					};
+				};
 			};
 			buildConfigurationList = 1A9A08628813880C7D01F4E2 /* Build configuration list for PBXProject "TapTheSquare" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1094,10 +1103,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapTheSquare/TapTheSquare-Prefix.pch";
 				INFOPLIST_FILE = "TapTheSquare/TapTheSquare-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1195,10 +1207,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapTheSquare/TapTheSquare-Prefix.pch";
 				INFOPLIST_FILE = "TapTheSquare/TapTheSquare-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};

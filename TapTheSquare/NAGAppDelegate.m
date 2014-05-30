@@ -7,8 +7,19 @@
 //
 
 #import "NAGAppDelegate.h"
+#import "iRate.h"
 
 @implementation NAGAppDelegate
+
++ (void)initialize
+{
+    //    настраиваем окно с вопросом об оценке приложения
+    [iRate sharedInstance].appStoreID = -1; // TODO
+    [iRate sharedInstance].applicationName = @"Tap The Square";
+    [iRate sharedInstance].daysUntilPrompt = 0.1;
+    [iRate sharedInstance].usesUntilPrompt = 2;
+    [iRate sharedInstance].promptForNewVersionIfUserRated = YES;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

@@ -7,6 +7,7 @@
 //
 
 #import "NAGMyScene.h"
+#import "GameKit/GameKit.h"
 
 #define TILE_HEIGHT 50
 #define TILE_WIDTH 50
@@ -33,6 +34,9 @@
 // игровое поле
 @property NSMutableSet *usedCells;
 @property NSMutableSet *unusedCells;
+
+// Game Center контроллер авторизации
+@property UIViewController *gameCenterAuthViewController;
 @end
 
 
@@ -45,7 +49,10 @@
     self = [super initWithSize:size];
 
     if (self) {
+        [self authorizeLocalPlayer];
+
         self.gamesCount = -1;
+        self.gameCenterAuthViewController = nil;
         self.backgroundColor = [SKColor colorWithRed:0.388
                                                green:0.259
                                                 blue:0.875
@@ -424,6 +431,23 @@
                                    selector:@selector(enableGameField:)
                                    userInfo:nil
                                     repeats:NO];
+
+//    авторизуем пользователя в ГЦ и отправляем его очки
+    __weak NAGMyScene *weakSelf = self;
+
+    if (![GKLocalPlayer localPlayer].isAuthenticated && self.gameCenterAuthViewController != nil) {
+        [[[UIApplication sharedApplication] keyWindow]
+                .rootViewController presentViewController:self.gameCenterAuthViewController
+                                                 animated:YES
+                                               completion:^{
+
+            if ([GKLocalPlayer localPlayer].isAuthenticated) {
+                [weakSelf sendScoreToGameCenter];
+            }
+        }];
+    } else if ([GKLocalPlayer localPlayer].isAuthenticated) {
+        [weakSelf sendScoreToGameCenter];
+    }
 }
 
 - (void)enableGameField:(NSTimer *)timer
@@ -496,6 +520,31 @@
             .calculateAccumulatedFrame.size.height);
 
     return scoreLabel;
+}
+
+#pragma mark - Game Center
+
+- (void)authorizeLocalPlayer
+{
+    __weak NAGMyScene *weakSelf = self;
+
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    localPlayer.authenticateHandler = ^(UIViewController *authController, NSError *error) {
+        if (authController != nil) {
+            weakSelf.gameCenterAuthViewController = authController;
+        }
+    };
+}
+
+- (void)sendScoreToGameCenter
+{
+//                отправляем пользовательские очки в ГЦ
+    GKScore *score = [GKScore new];
+    score.value = self.score;
+    score.leaderboardIdentifier = @"scoreTable";
+
+    [GKScore reportScores:@[score]
+    withCompletionHandler:nil];
 }
 
 #pragma mark - Device
