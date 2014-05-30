@@ -11,11 +11,30 @@
 #define TILE_HEIGHT 50
 #define TILE_WIDTH 50
 
+typedef enum
+{
+    NAGFieldTileStandart,
+    NAGFieldTileAd,
+    NAGFieldTileClear,
+    NAGFieldTileFail
+} NAGFieldTileType;
+
 @interface NAGMyScene ()
 @property (nonatomic, getter=isFirstScreenVisible) BOOL firstScreenVisible;
-@property NSUInteger score;
-@property NSTimer *timer;
 
+// очки, стоимости
+@property NSUInteger score;
+@property NSUInteger cellPoints;
+
+// таймер для генерации квадратиков
+@property NSTimer *timer;
+@property NSMutableArray *timerLevels;
+@property NSUInteger timerTimeLevelIndex;
+
+// таймер для переключения уровней
+@property NSTimer *levelChangeTimer;
+
+// игровое поле
 @property NSMutableSet *usedCells;
 @property NSMutableSet *unusedCells;
 @end
@@ -78,10 +97,26 @@
                 [touchedNode removeFromParent];
                 self.firstScreenVisible = NO;
                 [self startGame];
+                [self addChild:[self scoreLayer]];
             }
-        } else if (touchedNode.userData != nil){
-            NSInteger points = [touchedNode.userData[@"points"] integerValue];
-            self.score += points;
+        } else if ([touchedNode.name isEqualToString:@"adTile"]) {
+            NSLog(@"===> AD TILE");
+        } else if ([touchedNode.name isEqualToString:@"clearTile"]) {
+//            очищаем поле и добавляем пользователю баллы = кол-ву клеток на поле
+            self.score += self.cellPoints * self.usedCells.count;
+
+//            освобождаем занятые ячейки
+            [self.unusedCells unionSet:self.usedCells];
+            [self.usedCells removeAllObjects];
+
+//            очищаем поле
+
+        } else if ([touchedNode.name isEqualToString:@"failTile"]) {
+            NSLog(@"===> FAIL TILE");
+        } else if ([touchedNode.name isEqualToString:@"standartTile"]) {
+            self.score += self.cellPoints;
+
+            [self updateScoreLabel];
 
             [self.usedCells removeObject:touchedNode.name];
             [self.unusedCells addObject:touchedNode.name];
@@ -99,7 +134,20 @@
 {
     NSLog(@"%s", __FUNCTION__);
 
-    self.timer = [NSTimer timerWithTimeInterval:0.2
+//    инициализация таймера переключения уровней
+    self.levelChangeTimer = [NSTimer timerWithTimeInterval:5.0 // seconds
+                                                    target:self
+                                                  selector:@selector(changeGameLevel:)
+                                                  userInfo:nil
+                                                   repeats:YES];
+
+    [[NSRunLoop mainRunLoop]
+                addTimer:self.levelChangeTimer
+                 forMode:NSDefaultRunLoopMode];
+
+//    инициализация таймера генерации игрового поля
+    self.timer = [NSTimer timerWithTimeInterval:[self.timerLevels[self
+            .timerTimeLevelIndex] floatValue]
                                          target:self
                                        selector:@selector(generateNewSquare:)
                                        userInfo:nil
@@ -115,6 +163,19 @@
 
     self.firstScreenVisible = YES;
     self.score = 0;
+    self.cellPoints = 1 << 0;
+    self.timerTimeLevelIndex = 0;
+    self.timerLevels = [@[@1.0,
+                          @0.8,
+                          @0.6,
+                          @0.4,
+                          @0.2,
+                          @0.09,
+                          @0.07,
+                          @0.05,
+                          @0.03,
+                          @0.01,
+                          @0.001] mutableCopy];
 
     self.unusedCells = [NSMutableSet new];
     for (NSInteger i = 0; i < [self fieldMaxCols]; i++) {
@@ -147,15 +208,82 @@
     NSInteger col = (NSInteger) (newTilePosition.x / TILE_WIDTH);
     NSInteger row = (NSInteger) (newTilePosition.y / TILE_HEIGHT);
 
-    SKSpriteNode *square = [SKSpriteNode spriteNodeWithImageNamed:@"square"];
+    SKSpriteNode *square = [self randomSquareTile];
     square.position = newTilePosition;
-    square.name = [NSString stringWithFormat:@"%d_%d", col, row];
-    square.anchorPoint = CGPointMake(0.08, 0.11);
-    square.userData = [@{
-            @"points" : @(arc4random() % 100 + 1)
-    } mutableCopy];
+    if (square.name == nil) {
+        square.name = [NSString stringWithFormat:@"%d_%d", col, row];
+    } else {
+        __weak NAGMyScene *weakSelf = self;
+
+//        добавляем действие по автоматическому удалению особых квадратиков
+        SKAction *waitAction = [SKAction waitForDuration:2.0];
+        SKAction *removeAction = [SKAction removeFromParent];
+        SKAction *restoreCell = [SKAction runBlock:^{
+            NSString *cellName = [NSString stringWithFormat:@"%d_%d", col, row];
+
+            [weakSelf.unusedCells addObject:cellName];
+            [weakSelf.usedCells removeObject:cellName];
+        }];
+        SKAction *sequenceAction = [SKAction sequence:@[waitAction, restoreCell, removeAction]];
+
+        [square runAction:sequenceAction];
+    }
 
     [self addChild:square];
+}
+
+- (SKSpriteNode *)randomSquareTile
+{
+    SKSpriteNode *node;
+    NSInteger value = arc4random_uniform(100);
+
+    if (0 <= value && value <= 85) {
+        node = [SKSpriteNode spriteNodeWithImageNamed:@"square"];
+    } else if (85 < value && value <= 95) {
+        if (arc4random_uniform(2) == 1) {
+            node = [SKSpriteNode spriteNodeWithImageNamed:@"square_clear"];
+            node.name = @"clearTile";
+        } else {
+            node = [SKSpriteNode spriteNodeWithImageNamed:@"square_fail"];
+            node.name = @"failTile";
+        }
+    } else {
+        node = [SKSpriteNode spriteNodeWithImageNamed:@"square_ad"];
+        node.name = @"adTile";
+    }
+
+    node.anchorPoint = CGPointMake(0.08, 0.11);
+
+    return node;
+}
+
+- (void)changeGameLevel:(NSTimer *)timer
+{
+//    изменяем интервалы/скорость заполнения игрового поля
+    if (self.timerTimeLevelIndex == self.timerLevels.count - 1) {
+        self.timerTimeLevelIndex = 0;
+    } else {
+        self.timerTimeLevelIndex++;
+    }
+
+//    изменяем стоимость удаленной клетки
+    self.cellPoints = self.cellPoints << 1;
+
+//    отключаем текущий таймер
+    [self.timer invalidate];
+    self.timer = nil;
+
+//    создаем новый с новым интервалом добавления квадратиков на поле
+    self.timer = [NSTimer timerWithTimeInterval:[self.timerLevels[self
+            .timerTimeLevelIndex] floatValue]
+                                         target:self
+                                       selector:@selector(generateNewSquare:)
+                                       userInfo:nil
+                                        repeats:YES];
+
+    [[NSRunLoop mainRunLoop]
+                addTimer:self.timer
+                 forMode:NSDefaultRunLoopMode];
 }
 
 - (CGPoint)randomSquarePosition
@@ -165,7 +293,9 @@
     if (self.unusedCells.count == 0)
         return deadPoint;
 
-    NSString *randomCellName = [self.unusedCells allObjects][arc4random_uniform(self.unusedCells.count)];
+    NSString *randomCellName = [self
+            .unusedCells allObjects][arc4random_uniform(self.unusedCells
+            .count)];
 
     if (randomCellName == nil)
         return deadPoint;
@@ -177,8 +307,8 @@
     NSInteger cols = [parts[0] integerValue];
     NSInteger rows = [parts[1] integerValue];
 
-    CGFloat xOffset = ([self screenWidth] - [self fieldMaxCols] * TILE_WIDTH) / (CGFloat)2.0;
-    CGFloat yOffset = ([self screenHeight] - [self fieldMaxRows] * TILE_HEIGHT) / (CGFloat)2.0;
+    CGFloat xOffset = ([self screenWidth] - [self fieldMaxCols] * TILE_WIDTH) / (CGFloat) 2.0;
+    CGFloat yOffset = ([self screenHeight] - [self fieldMaxRows] * TILE_HEIGHT) / (CGFloat) 2.0;
 
     return CGPointMake(cols * TILE_HEIGHT + xOffset, rows * TILE_WIDTH + yOffset);
 }
@@ -186,6 +316,14 @@
 - (void)gameOver
 {
     NSLog(@"%s", __FUNCTION__);
+
+//    останавливаем основной таймер переключения уровней
+    [self.levelChangeTimer invalidate];
+    self.levelChangeTimer = nil;
+
+//    останавливаем таймер, который заполняет квадратиками поле
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 - (void)animatePopupWithPointsInPosition:(CGPoint)point
@@ -197,10 +335,11 @@
     SKAction *removeFromParent = [SKAction removeFromParent];
 
     SKAction *groupAction = [SKAction group:@[moveUp, fadeOut]];
-    SKAction *sequenceAction = [SKAction sequence:@[groupAction, removeFromParent]];
+    SKAction *sequenceAction = [SKAction sequence:@[groupAction,
+                                                    removeFromParent]];
 
-    SKLabelNode *pointsLabelNode = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    pointsLabelNode.text = @"+0.1";
+    SKLabelNode *pointsLabelNode = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
+    pointsLabelNode.text = [NSString stringWithFormat:@"+%d", self.cellPoints];
     pointsLabelNode.fontSize = 27;
     pointsLabelNode.position = point;
     pointsLabelNode.fontColor = [SKColor yellowColor];
@@ -210,25 +349,46 @@
     [self addChild:pointsLabelNode];
 }
 
+- (void)updateScoreLabel
+{
+    SKLabelNode *score = (SKLabelNode *) [self childNodeWithName:@"scoreLabel"];
+    score.text = [NSString stringWithFormat:@"Score: %09d", self.score];
+}
+
 #pragma mark - Layers
 
 - (SKNode *)firstScreenLayer
 {
     NSLog(@"%s", __FUNCTION__);
 
-    SKLabelNode *playLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    SKLabelNode *playLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
     playLabel.text = @"Tap me!";
     playLabel.fontSize = 37;
     playLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
     playLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     playLabel.name = @"playButton";
-    playLabel.position = CGPointMake([self screenWidth] / 2, [self screenHeight] / 2);
+    playLabel
+            .position = CGPointMake([self screenWidth] / 2, [self screenHeight] / 2);
     playLabel.fontColor = [SKColor colorWithRed:0.435
                                           green:0.914
                                            blue:0.447
                                           alpha:1.0];
 
     return playLabel;
+}
+
+- (SKNode *)scoreLayer
+{
+    SKLabelNode *scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
+    scoreLabel.fontColor = [SKColor yellowColor];
+    scoreLabel.fontSize = 27;
+    scoreLabel.text = [NSString stringWithFormat:@"Score: %09d", self.score];
+    scoreLabel.zPosition = 5;
+    scoreLabel.name = @"scoreLabel";
+    scoreLabel.position = CGPointMake(130, [self screenHeight] - scoreLabel
+            .calculateAccumulatedFrame.size.height);
+
+    return scoreLabel;
 }
 
 #pragma mark - Device
