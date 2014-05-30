@@ -14,17 +14,16 @@
 		1A9A0582168A227137B39B30 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A06814C087C89157C0BCE /* Images.xcassets */; };
 		1A9A0588E48CC4ACED308FB5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0DED82599A10A6AA3444 /* Foundation.framework */; };
 		1A9A0617BEB9B718E84BBE20 /* TapTheSquareTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A0F961756CA9176E1A813 /* TapTheSquareTests.m */; };
-		1A9A0717144A4976872F904C /* NAGMyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A00ABEF5969579DE60DFC /* NAGMyScene.m */; };
 		1A9A085BA8EEA39F565D02B3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A088B05FA8FCEF319CA31 /* UIKit.framework */; };
 		1A9A08841C2A3DDF244017CC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A088B05FA8FCEF319CA31 /* UIKit.framework */; };
 		1A9A08A156D463065B374002 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A003F94618578D2BC496D /* main.m */; };
-		1A9A09623FA25E4D16F3BD5F /* NAGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A0F47C8A3F8883D2BF167 /* NAGAppDelegate.m */; };
+		1A9A08DAF53EC49DB9D56CFE /* NAGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A029A699774CEAF49B7AD /* NAGAppDelegate.m */; };
 		1A9A099B01948785D36332BB /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0D587EA0F94D468E24D8 /* SpriteKit.framework */; };
-		1A9A0AD76A937DCEB421E488 /* NAGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A0D1372770FE93AF86E18 /* NAGViewController.m */; };
+		1A9A0A9C07E697E67D69E441 /* NAGMyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A07B852A5A1BD35D37213 /* NAGMyScene.m */; };
 		1A9A0AF9F67FBF48B98B6F10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A01C2C4234AC2F582860F /* CoreGraphics.framework */; };
 		1A9A0B5F1856D4A717F4C37F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A05A737DD70AB12B9CD87 /* InfoPlist.strings */; };
+		1A9A0CC1696EF47244050A55 /* NAGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A086E91BEC1DB109A604B /* NAGViewController.m */; };
 		1A9A0ED113A53C8186891FDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0DED82599A10A6AA3444 /* Foundation.framework */; };
-		1A9A0FC272A2F99CCCBEA6A8 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A081EB5203162021F7E52 /* Spaceship.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,27 +38,26 @@
 
 /* Begin PBXFileReference section */
 		1A9A003F94618578D2BC496D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1A9A007FE8BADEE442C46F18 /* NAGMyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NAGMyScene.h; sourceTree = "<group>"; };
-		1A9A00ABEF5969579DE60DFC /* NAGMyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NAGMyScene.m; sourceTree = "<group>"; };
+		1A9A0062AC579B8CD483B0C2 /* NAGAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAGAppDelegate.h; sourceTree = "<group>"; };
 		1A9A014F6CE7DB3704B8E9B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		1A9A01C2C4234AC2F582860F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1A9A023640A793E9D42B1B6B /* TapTheSquareTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapTheSquareTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9A028BA2D1D17BD12B546D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1A9A029A699774CEAF49B7AD /* NAGAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NAGAppDelegate.m; sourceTree = "<group>"; };
+		1A9A03745BC2C455538D7371 /* NAGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAGViewController.h; sourceTree = "<group>"; };
 		1A9A03863F0BF474A0BC0A0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		1A9A0418B2C8B68E270C2125 /* NAGMyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAGMyScene.h; sourceTree = "<group>"; };
 		1A9A045790AA44420D9E8CDF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1A9A04DE0C60A09511B6E6EC /* NAGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NAGAppDelegate.h; sourceTree = "<group>"; };
 		1A9A056EAF427CC974E275ED /* TapTheSquare-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TapTheSquare-Prefix.pch"; sourceTree = "<group>"; };
-		1A9A0643EA4C364F1E2ACE78 /* NAGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NAGViewController.h; sourceTree = "<group>"; };
 		1A9A06814C087C89157C0BCE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		1A9A081EB5203162021F7E52 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
+		1A9A07B852A5A1BD35D37213 /* NAGMyScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NAGMyScene.m; sourceTree = "<group>"; };
+		1A9A086E91BEC1DB109A604B /* NAGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NAGViewController.m; sourceTree = "<group>"; };
 		1A9A088B05FA8FCEF319CA31 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1A9A08DB610BF9CD4A2E4F0C /* TapTheSquareTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "TapTheSquareTests-Info.plist"; sourceTree = "<group>"; };
 		1A9A09531BBA568E82F4AD00 /* TapTheSquare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapTheSquare.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1A9A0D1372770FE93AF86E18 /* NAGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NAGViewController.m; sourceTree = "<group>"; };
 		1A9A0D587EA0F94D468E24D8 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		1A9A0DED82599A10A6AA3444 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1A9A0E038C31DD2605DFF71D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		1A9A0F47C8A3F8883D2BF167 /* NAGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NAGAppDelegate.m; sourceTree = "<group>"; };
 		1A9A0F961756CA9176E1A813 /* TapTheSquareTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapTheSquareTests.m; sourceTree = "<group>"; };
 		1A9A0FCDF5BF557CD6C37F80 /* TapTheSquare-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "TapTheSquare-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,16 +142,15 @@
 			isa = PBXGroup;
 			children = (
 				1A9A011221B1AB7FFB207B18 /* Supporting Files */,
-				1A9A04DE0C60A09511B6E6EC /* NAGAppDelegate.h */,
-				1A9A0F47C8A3F8883D2BF167 /* NAGAppDelegate.m */,
 				1A9A06814C087C89157C0BCE /* Images.xcassets */,
 				1A9A02321783F0E67FCCE868 /* Main_iPhone.storyboard */,
 				1A9A0732BC0FA2F3B58E75FB /* Main_iPad.storyboard */,
-				1A9A0643EA4C364F1E2ACE78 /* NAGViewController.h */,
-				1A9A0D1372770FE93AF86E18 /* NAGViewController.m */,
-				1A9A007FE8BADEE442C46F18 /* NAGMyScene.h */,
-				1A9A00ABEF5969579DE60DFC /* NAGMyScene.m */,
-				1A9A081EB5203162021F7E52 /* Spaceship.png */,
+				1A9A0062AC579B8CD483B0C2 /* NAGAppDelegate.h */,
+				1A9A029A699774CEAF49B7AD /* NAGAppDelegate.m */,
+				1A9A0418B2C8B68E270C2125 /* NAGMyScene.h */,
+				1A9A07B852A5A1BD35D37213 /* NAGMyScene.m */,
+				1A9A03745BC2C455538D7371 /* NAGViewController.h */,
+				1A9A086E91BEC1DB109A604B /* NAGViewController.m */,
 			);
 			path = TapTheSquare;
 			sourceTree = "<group>";
@@ -248,7 +245,6 @@
 				1A9A0582168A227137B39B30 /* Images.xcassets in Resources */,
 				1A9A0004B32ED056A7EA5459 /* Main_iPhone.storyboard in Resources */,
 				1A9A021F600CCF72E760E6EC /* Main_iPad.storyboard in Resources */,
-				1A9A0FC272A2F99CCCBEA6A8 /* Spaceship.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,9 +264,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A9A08A156D463065B374002 /* main.m in Sources */,
-				1A9A09623FA25E4D16F3BD5F /* NAGAppDelegate.m in Sources */,
-				1A9A0AD76A937DCEB421E488 /* NAGViewController.m in Sources */,
-				1A9A0717144A4976872F904C /* NAGMyScene.m in Sources */,
+				1A9A08DAF53EC49DB9D56CFE /* NAGAppDelegate.m in Sources */,
+				1A9A0A9C07E697E67D69E441 /* NAGMyScene.m in Sources */,
+				1A9A0CC1696EF47244050A55 /* NAGViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

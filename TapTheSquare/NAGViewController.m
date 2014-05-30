@@ -2,7 +2,7 @@
 //  NAGViewController.m
 //  TapTheSquare
 //
-//  Created by AndrewShmig on 5/30/14.
+//  Created by AndrewShmig on 5/29/14.
 //  Copyright (c) 2014 Non Atomic Games Inc. All rights reserved.
 //
 
@@ -16,14 +16,15 @@
     [super viewDidLoad];
 
     // Configure the view.
-    SKView * skView = (SKView *)self.view;
+    SKView *skView = (SKView *) self.view;
+#ifdef DEBUG
     skView.showsFPS = YES;
     skView.showsNodeCount = YES;
-    
+#endif
+
     // Create and configure the scene.
-    SKScene * scene = [NAGMyScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-    
+    SKScene *scene = [NAGMyScene sceneWithSize:skView.bounds.size];
+
     // Present the scene.
     [skView presentScene:scene];
 }
@@ -35,11 +36,7 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return UIInterfaceOrientationMaskAllButUpsideDown;
-    } else {
-        return UIInterfaceOrientationMaskAll;
-    }
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)didReceiveMemoryWarning
