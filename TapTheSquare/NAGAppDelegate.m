@@ -31,7 +31,6 @@
     [FlurryAds initialize:self.window.rootViewController];
 
 //    предварительно запрашиваем рекламку
-    [FlurryAds enableTestAds:YES];
     [FlurryAds fetchAdForSpace:@"GAME_VIEW" frame:self.window.frame size:FULLSCREEN];
 
     // Override point for customization after application launch.
