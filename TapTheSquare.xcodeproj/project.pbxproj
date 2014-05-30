@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A9A0004B32ED056A7EA5459 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A02321783F0E67FCCE868 /* Main_iPhone.storyboard */; };
+		1A9A0152B897B609ADBBEFF5 /* square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0E0C9085C797D881A77E /* square@2x.png */; };
 		1A9A021F600CCF72E760E6EC /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0732BC0FA2F3B58E75FB /* Main_iPad.storyboard */; };
 		1A9A036D2B20FBC1510E4899 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0E038C31DD2605DFF71D /* XCTest.framework */; };
 		1A9A054FAD58114B323D8BFA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A088B8B703660358DEA88 /* InfoPlist.strings */; };
@@ -58,6 +59,7 @@
 		1A9A0D587EA0F94D468E24D8 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		1A9A0DED82599A10A6AA3444 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1A9A0E038C31DD2605DFF71D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		1A9A0E0C9085C797D881A77E /* square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "square@2x.png"; sourceTree = "<group>"; };
 		1A9A0F961756CA9176E1A813 /* TapTheSquareTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapTheSquareTests.m; sourceTree = "<group>"; };
 		1A9A0FCDF5BF557CD6C37F80 /* TapTheSquare-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "TapTheSquare-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +153,7 @@
 				1A9A07B852A5A1BD35D37213 /* NAGMyScene.m */,
 				1A9A03745BC2C455538D7371 /* NAGViewController.h */,
 				1A9A086E91BEC1DB109A604B /* NAGViewController.m */,
+				1A9A0E7A89B92A36489838C3 /* Resources */,
 			);
 			path = TapTheSquare;
 			sourceTree = "<group>";
@@ -162,6 +165,14 @@
 				1A9A023640A793E9D42B1B6B /* TapTheSquareTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1A9A0E7A89B92A36489838C3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1A9A0E0C9085C797D881A77E /* square@2x.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +256,7 @@
 				1A9A0582168A227137B39B30 /* Images.xcassets in Resources */,
 				1A9A0004B32ED056A7EA5459 /* Main_iPhone.storyboard in Resources */,
 				1A9A021F600CCF72E760E6EC /* Main_iPad.storyboard in Resources */,
+				1A9A0152B897B609ADBBEFF5 /* square@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
