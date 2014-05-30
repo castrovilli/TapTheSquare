@@ -14,6 +14,7 @@
 		1A9A0152B897B609ADBBEFF5 /* square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0E0C9085C797D881A77E /* square@2x.png */; };
 		1A9A021F600CCF72E760E6EC /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0732BC0FA2F3B58E75FB /* Main_iPad.storyboard */; };
 		1A9A0227A310179E8E0D0928 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A060F63A75367E7DA1CCE /* Localizable.strings */; };
+		1A9A02512C9595254278040B /* libFlurry_5.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0BF46992BEA040F38F8C /* libFlurry_5.0.0.a */; };
 		1A9A02D126157A6F90431ECB /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A0A856670897334C3BA91 /* iRate.m */; };
 		1A9A02E11698153C76E956E5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A028020EA8F045FE36E63 /* Localizable.strings */; };
 		1A9A031B844BE1900515EEC9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0E69CFF693005B73AB86 /* Localizable.strings */; };
@@ -62,6 +63,7 @@
 		1A9A0ED113A53C8186891FDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0DED82599A10A6AA3444 /* Foundation.framework */; };
 		1A9A0F00781226F602E006F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0BF8F579850485F15D63 /* Localizable.strings */; };
 		1A9A0F0D40BAB52B7ECEA5C0 /* square_clear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0B29F41412BD73238601 /* square_clear@2x.png */; };
+		1A9A0F458FFFE98E208CC9DA /* libFlurryAds_5.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0ADCB48E2CEE3785064D /* libFlurryAds_5.0.0.a */; };
 		1A9A0F8B1FD149FFAE0D32A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A078EB4FC663C6BBB1999 /* Localizable.strings */; };
 		1A9A0FA4A914F0C0DBC1E390 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0BCD5898126D91710417 /* Localizable.strings */; };
 		1A9A0FAE279D617547533CEE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A09305B6428346134F00B /* Localizable.strings */; };
@@ -109,7 +111,9 @@
 		1A9A046CA2CBBEE56E65BC21 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A04C297387709FB6F5219 /* square_ad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "square_ad@2x.png"; sourceTree = "<group>"; };
 		1A9A0530C20A1ABE99D5B405 /* sl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sl; path = Localizable.strings; sourceTree = "<group>"; };
+		1A9A0546F6EDD2E64FC4A9C3 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		1A9A056EAF427CC974E275ED /* TapTheSquare-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TapTheSquare-Prefix.pch"; sourceTree = "<group>"; };
+		1A9A05740DC06B0963D22F70 /* FlurryAds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAds.h; sourceTree = "<group>"; };
 		1A9A059C263A33C9C71C6B3A /* bn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = bn; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A065A9A6DFF91011A58CB /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A06814C087C89157C0BCE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -123,13 +127,16 @@
 		1A9A086E91BEC1DB109A604B /* NAGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NAGViewController.m; sourceTree = "<group>"; };
 		1A9A088B05FA8FCEF319CA31 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1A9A08DB610BF9CD4A2E4F0C /* TapTheSquareTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "TapTheSquareTests-Info.plist"; sourceTree = "<group>"; };
+		1A9A091BDF9C25B8ED18864C /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
 		1A9A09398B0DBA7EC1CC83A0 /* ar */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ar; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A09531BBA568E82F4AD00 /* TapTheSquare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapTheSquare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9A09CCAFD807B109626EFA /* pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pl; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A09D371EB7B8BF61528B4 /* tr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = tr; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A09DADCC4856DF4AAAAA8 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		1A9A0A856670897334C3BA91 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
+		1A9A0ADCB48E2CEE3785064D /* libFlurryAds_5.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAds_5.0.0.a; sourceTree = "<group>"; };
 		1A9A0B29F41412BD73238601 /* square_clear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "square_clear@2x.png"; sourceTree = "<group>"; };
+		1A9A0BF46992BEA040F38F8C /* libFlurry_5.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.0.0.a; sourceTree = "<group>"; };
 		1A9A0C87754601CA9C97DC4F /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A0CC13C07A9F6957F9C22 /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A0CD866D9B40D880E6B56 /* de-AT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "de-AT"; path = Localizable.strings; sourceTree = "<group>"; };
@@ -167,6 +174,8 @@
 				1A9A08841C2A3DDF244017CC /* UIKit.framework in Frameworks */,
 				1A9A099B01948785D36332BB /* SpriteKit.framework in Frameworks */,
 				1A9A032489A20FA64E773D1F /* GameKit.framework in Frameworks */,
+				1A9A02512C9595254278040B /* libFlurry_5.0.0.a in Frameworks */,
+				1A9A0F458FFFE98E208CC9DA /* libFlurryAds_5.0.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +241,25 @@
 				1A9A05EEF31C6BF223E39E55 /* Localizable.strings */,
 			);
 			path = hi.lproj;
+			sourceTree = "<group>";
+		};
+		1A9A03202B4830131CC7B3DC /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				1A9A0546F6EDD2E64FC4A9C3 /* Flurry.h */,
+				1A9A0BF46992BEA040F38F8C /* libFlurry_5.0.0.a */,
+			);
+			path = Flurry;
+			sourceTree = "<group>";
+		};
+		1A9A03D06462E5A57B5DD85E /* FlurryAds */ = {
+			isa = PBXGroup;
+			children = (
+				1A9A05740DC06B0963D22F70 /* FlurryAds.h */,
+				1A9A091BDF9C25B8ED18864C /* FlurryAdDelegate.h */,
+				1A9A0ADCB48E2CEE3785064D /* libFlurryAds_5.0.0.a */,
+			);
+			path = FlurryAds;
 			sourceTree = "<group>";
 		};
 		1A9A03DD8ADFB3F4FDC0B42A /* Frameworks */ = {
@@ -557,6 +585,8 @@
 			isa = PBXGroup;
 			children = (
 				1A9A00056FEB6ED1BE2FCEB2 /* iRate */,
+				1A9A03202B4830131CC7B3DC /* Flurry */,
+				1A9A03D06462E5A57B5DD85E /* FlurryAds */,
 			);
 			path = ExternalLibraries;
 			sourceTree = "<group>";
@@ -1108,6 +1138,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapTheSquare/TapTheSquare-Prefix.pch";
 				INFOPLIST_FILE = "TapTheSquare/TapTheSquare-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"\"${PROJECT_DIR}/TapTheSquare/ExternalLibraries/Flurry\"/**",
+					"\"${PROJECT_DIR}/TapTheSquare/ExternalLibraries/FlurryAds\"/**",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
@@ -1212,6 +1246,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapTheSquare/TapTheSquare-Prefix.pch";
 				INFOPLIST_FILE = "TapTheSquare/TapTheSquare-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"\"${PROJECT_DIR}/TapTheSquare/ExternalLibraries/Flurry\"/**",
+					"\"${PROJECT_DIR}/TapTheSquare/ExternalLibraries/FlurryAds\"/**",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
