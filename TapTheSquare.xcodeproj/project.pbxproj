@@ -52,6 +52,7 @@
 		1A9A09A9FDA8271D8BB400BD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A088E07794C458C701D33 /* Localizable.strings */; };
 		1A9A09DA065306F76031D81B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0D9385806189E1DB5E80 /* Localizable.strings */; };
 		1A9A0A09F71BD7FD34672346 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A009B1AA16E90BDCC244C /* Localizable.strings */; };
+		1A9A0A37B5D0BB07C4309CB0 /* CooperBlackStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0953012660D4282269AA /* CooperBlackStd.otf */; };
 		1A9A0A9C07E697E67D69E441 /* NAGMyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A07B852A5A1BD35D37213 /* NAGMyScene.m */; };
 		1A9A0AF9F67FBF48B98B6F10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A01C2C4234AC2F582860F /* CoreGraphics.framework */; };
 		1A9A0B3E5431222C9CFA9954 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0223EEF948CD8DF7584F /* Localizable.strings */; };
@@ -73,7 +74,6 @@
 		1A9A0F8B1FD149FFAE0D32A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A078EB4FC663C6BBB1999 /* Localizable.strings */; };
 		1A9A0FA4A914F0C0DBC1E390 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0BCD5898126D91710417 /* Localizable.strings */; };
 		1A9A0FAE279D617547533CEE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A09305B6428346134F00B /* Localizable.strings */; };
-		D5A5B5BB193862E100C56831 /* CooperBlackStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = D5A5B5BA193862E100C56831 /* CooperBlackStd.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +138,7 @@
 		1A9A08DB610BF9CD4A2E4F0C /* TapTheSquareTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "TapTheSquareTests-Info.plist"; sourceTree = "<group>"; };
 		1A9A091BDF9C25B8ED18864C /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
 		1A9A09398B0DBA7EC1CC83A0 /* ar */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ar; path = Localizable.strings; sourceTree = "<group>"; };
+		1A9A0953012660D4282269AA /* CooperBlackStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file.otf; path = CooperBlackStd.otf; sourceTree = "<group>"; };
 		1A9A09531BBA568E82F4AD00 /* TapTheSquare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapTheSquare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9A09CCAFD807B109626EFA /* pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pl; path = Localizable.strings; sourceTree = "<group>"; };
 		1A9A09D371EB7B8BF61528B4 /* tr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = tr; path = Localizable.strings; sourceTree = "<group>"; };
@@ -163,7 +164,6 @@
 		1A9A0F78C44BF1F7387AF89F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1A9A0F961756CA9176E1A813 /* TapTheSquareTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapTheSquareTests.m; sourceTree = "<group>"; };
 		1A9A0FCDF5BF557CD6C37F80 /* TapTheSquare-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "TapTheSquare-Info.plist"; sourceTree = "<group>"; };
-		D5A5B5BA193862E100C56831 /* CooperBlackStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = CooperBlackStd.otf; path = ../../../../../Downloads/CooperBlackStd/CooperBlackStd.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -626,11 +626,11 @@
 		1A9A0E7A89B92A36489838C3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D5A5B5BA193862E100C56831 /* CooperBlackStd.otf */,
 				1A9A0E0C9085C797D881A77E /* square@2x.png */,
 				1A9A0B29F41412BD73238601 /* square_clear@2x.png */,
 				1A9A04428A88677F2681411E /* square_fail@2x.png */,
 				1A9A04C297387709FB6F5219 /* square_ad@2x.png */,
+				1A9A0953012660D4282269AA /* CooperBlackStd.otf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -748,7 +748,6 @@
 				1A9A0004B32ED056A7EA5459 /* Main_iPhone.storyboard in Resources */,
 				1A9A021F600CCF72E760E6EC /* Main_iPad.storyboard in Resources */,
 				1A9A0152B897B609ADBBEFF5 /* square@2x.png in Resources */,
-				D5A5B5BB193862E100C56831 /* CooperBlackStd.otf in Resources */,
 				1A9A0F0D40BAB52B7ECEA5C0 /* square_clear@2x.png in Resources */,
 				1A9A04B56ED63EF9C090E85B /* square_fail@2x.png in Resources */,
 				1A9A0B60CA760F01AF269C72 /* square_ad@2x.png in Resources */,
@@ -787,6 +786,7 @@
 				1A9A031B844BE1900515EEC9 /* Localizable.strings in Resources */,
 				1A9A0F8B1FD149FFAE0D32A8 /* Localizable.strings in Resources */,
 				1A9A064FE33ED1BBF9C5E453 /* Localizable.strings in Resources */,
+				1A9A0A37B5D0BB07C4309CB0 /* CooperBlackStd.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1169,7 +1169,7 @@
 					"\"${PROJECT_DIR}/TapTheSquare/ExternalLibraries/FlurryAds\"/**",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B57CA5AC-7F37-480A-880D-0A1556ABE800";
+				PROVISIONING_PROFILE = "D710A0E5-B3C3-4BB1-9ED9-0F46EBC4036E";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1277,7 +1277,7 @@
 					"\"${PROJECT_DIR}/TapTheSquare/ExternalLibraries/FlurryAds\"/**",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B57CA5AC-7F37-480A-880D-0A1556ABE800";
+				PROVISIONING_PROFILE = "D710A0E5-B3C3-4BB1-9ED9-0F46EBC4036E";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
