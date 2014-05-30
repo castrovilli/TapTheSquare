@@ -90,11 +90,18 @@
         SKNode *touchedNode = [self nodeAtPoint:pointInSKScene];
 
         if (self.isGameOver) {
+//            хак здесь для того, чтобы при move табличка финальная не убиралась
+//            поэтому и проверка на активность игрового поля
+            if (!self.userInteractionEnabled)
+                return;
+
             [[self childNodeWithName:@"backgroundColorLayer"] removeFromParent];
 
             [self resetGameData];
             [self startGame];
-        } else if (self.firstScreenVisible) {
+        }
+
+        if (self.firstScreenVisible) {
             if ([touchedNode.name isEqualToString:@"playButton"]) {
                 [touchedNode removeFromParent];
                 self.firstScreenVisible = NO;
@@ -354,6 +361,9 @@
 
     self.gameOver = YES;
 
+//    блокируем игровую сцену
+    self.userInteractionEnabled = NO;
+
 //    останавливаем основной таймер переключения уровней
     [self.levelChangeTimer invalidate];
     self.levelChangeTimer = nil;
@@ -407,6 +417,18 @@
     [blackBackground addChild:playAgainButton];
 
     [self addChild:blackBackground];
+
+//    блокируем игровое поле на 2 секунды, чтобы игрок увидел свой счет
+    [NSTimer scheduledTimerWithTimeInterval:2.0
+                                     target:self
+                                   selector:@selector(enableGameField:)
+                                   userInfo:nil
+                                    repeats:NO];
+}
+
+- (void)enableGameField:(NSTimer *)timer
+{
+    self.userInteractionEnabled = YES;
 }
 
 - (void)animatePopupWithPoints:(NSUInteger)points
