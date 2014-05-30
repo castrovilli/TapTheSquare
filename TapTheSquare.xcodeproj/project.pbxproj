@@ -34,7 +34,6 @@
 		1A9A0593040AEEF44E62400A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A09DA57136221D272E1EA /* Localizable.strings */; };
 		1A9A05B70EE238E6F2F8F443 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A045AD67A523DC7150BF3 /* Localizable.strings */; };
 		1A9A0617BEB9B718E84BBE20 /* TapTheSquareTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A0F961756CA9176E1A813 /* TapTheSquareTests.m */; };
-		1A9A062588019147DA59DD4B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A01C2C4234AC2F582860F /* CoreGraphics.framework */; };
 		1A9A064FE33ED1BBF9C5E453 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0DEC526B8DC1817FC9F1 /* Localizable.strings */; };
 		1A9A066EB5F0EFC0CAD05672 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9A0BFCB0FD6FAD1D786866 /* SystemConfiguration.framework */; };
 		1A9A06F81E18FE1C73F4C173 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9A0F24895C6EFDF53B86D5 /* Localizable.strings */; };
@@ -190,7 +189,6 @@
 				1A9A02512C9595254278040B /* libFlurry_5.0.0.a in Frameworks */,
 				1A9A0F458FFFE98E208CC9DA /* libFlurryAds_5.0.0.a in Frameworks */,
 				1A9A0DB6FE4FCA8E7F91EDD9 /* AdSupport.framework in Frameworks */,
-				1A9A062588019147DA59DD4B /* CoreGraphics.framework in Frameworks */,
 				1A9A0B4DCD6760CB4158EF96 /* MediaPlayer.framework in Frameworks */,
 				1A9A0BDAFC22E3E07BDFC4E5 /* Security.framework in Frameworks */,
 				1A9A08C96DE06C62AC83DE9E /* StoreKit.framework in Frameworks */,
@@ -705,6 +703,7 @@
 		1A9A08F5FD39A2A45AEF9A7E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Non Atomic Games Inc.";
 				TargetAttributes = {
 					1A9A0045FE74A8D668418333 = {
@@ -718,6 +717,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ru,
 			);
 			mainGroup = 1A9A04BD49C03AC4CEFB09C9;
 			productRefGroup = 1A9A0B610B8B89F89541DFF3 /* Products */;
