@@ -65,18 +65,6 @@
     return self;
 }
 
-#pragma mark - Properties
-
-- (void)setScore:(NSUInteger)score
-{
-    NSString *scoreLength = [NSString stringWithFormat:@"%09lu", (unsigned long)score];
-
-    if (scoreLength.length > 9)
-        _score = 0;
-    else
-        _score = score;
-}
-
 #pragma mark - Scene
 
 - (void)update:(NSTimeInterval)currentTime
@@ -157,11 +145,7 @@
             [self.usedCells removeAllObjects];
 
 //            очищаем поле
-            [self enumerateChildNodesWithName:@"*"
-                                   usingBlock:^(SKNode *node, BOOL *stop) {
-                if (![node.name isEqualToString:@"scoreLabel"])
-                    [node removeFromParent];
-            }];
+            [self clearField];
 
 //            анимируем суммарный выигрыш пользователя
             [self animatePopupWithPoints:winPoints
@@ -237,7 +221,7 @@
 
     self.gameOverBool = NO;
     self.score = 0;
-    self.cellPoints = 1 << 0;
+    self.cellPoints = 1ul;
     self.timerTimeLevelIndex = 0;
     self.timerLevels = [@[@1.0,
                           @0.8,
@@ -245,20 +229,12 @@
                           @0.4,
                           @0.2,
                           @0.1,
-                          @0.09,
                           @0.08,
-                          @0.07,
                           @0.06,
-                          @0.05,
                           @0.04,
-                          @0.03,
                           @0.02,
-                          @0.01,
-                          @0.009,
                           @0.008,
-                          @0.007,
-                          @0.006,
-                          @0.005] mutableCopy];
+                          @0.006] mutableCopy];
 
     self.unusedCells = [NSMutableSet new];
     for (NSUInteger i = 0; i < [self fieldMaxCols]; i++) {
@@ -271,11 +247,7 @@
     self.usedCells = [NSMutableSet new];
 
 //    очистим поле от всех тайлов
-    [self enumerateChildNodesWithName:@"*"
-                           usingBlock:^(SKNode *node, BOOL *stop) {
-        if (![node.name isEqualToString:@"scoreLabel"])
-            [node removeFromParent];
-    }];
+    [self clearField];
 }
 
 - (void)generateNewSquare:(NSTimer *)timer
@@ -293,8 +265,6 @@
 
     if (CGPointEqualToPoint(newTilePosition, deadPoint)) {
         [timer invalidate];
-        timer = nil;
-
         [self gameOver];
 
         return;
@@ -371,12 +341,15 @@
 //    изменяем интервалы/скорость заполнения игрового поля
     if (self.timerTimeLevelIndex == self.timerLevels.count - 1) {
         self.timerTimeLevelIndex = 0;
+
+//        сбрасываем стоимость ячеек на первоначальное значение
+        self.cellPoints = 1ul;
     } else {
         self.timerTimeLevelIndex++;
-    }
 
-//    изменяем стоимость удаленной клетки
-    self.cellPoints = self.cellPoints << 1;
+        //    изменяем стоимость удаленной клетки
+        self.cellPoints = self.cellPoints << 1;
+    }
 
 //    отключаем текущий таймер
     [self.timer invalidate];
@@ -472,7 +445,7 @@
 
 //    добавляем надпись с кол-во очков ниже надписи с концом игры
     SKLabelNode *finalScoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
-    finalScoreLabel.text = [NSString stringWithFormat:@"%09lu", (unsigned long)self.score];
+    finalScoreLabel.text = [NSString stringWithFormat:@"%012lu", (unsigned long)self.score];
     finalScoreLabel.fontColor = [SKColor redColor];
     finalScoreLabel.fontSize = 27;
     finalScoreLabel
@@ -555,7 +528,16 @@
 - (void)updateScoreLabel
 {
     SKLabelNode *score = (SKLabelNode *) [self childNodeWithName:@"scoreLabel"];
-    score.text = [NSString stringWithFormat:@"Score: %09lu", (unsigned long)self.score];
+    score.text = [NSString stringWithFormat:@"Score: %012lu", (unsigned long)self.score];
+}
+
+- (void)clearField
+{
+    [self enumerateChildNodesWithName:@"*"
+                           usingBlock:^(SKNode *node, BOOL *stop) {
+        if (![node.name isEqualToString:@"scoreLabel"])
+            [node removeFromParent];
+    }];
 }
 
 #pragma mark - Layers
@@ -572,8 +554,7 @@
     playLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
     playLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     playLabel.name = @"playButton";
-    playLabel
-            .position = CGPointMake([self screenWidth] / 2, [self screenHeight] / 2);
+    playLabel.position = CGPointMake([self screenWidth] / 2, [self screenHeight] / 2);
     playLabel.fontColor = [SKColor colorWithRed:0.435
                                           green:0.914
                                            blue:0.447
@@ -587,11 +568,12 @@
     SKLabelNode *scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
     scoreLabel.fontColor = [SKColor yellowColor];
     scoreLabel.fontSize = 27;
-    scoreLabel.text = [NSString stringWithFormat:@"Score: %09lu", (unsigned long)self.score];
+    scoreLabel.text = [NSString stringWithFormat:@"Score: %012lu", (unsigned long)self.score];
     scoreLabel.zPosition = 1;
     scoreLabel.name = @"scoreLabel";
-    scoreLabel.position = CGPointMake(130, [self screenHeight] - scoreLabel
-            .calculateAccumulatedFrame.size.height);
+
+    CGRect accumulatedRect = scoreLabel.calculateAccumulatedFrame;
+    scoreLabel.position = CGPointMake(accumulatedRect.size.width / 2, [self screenHeight] - accumulatedRect.size.height);
 
     return scoreLabel;
 }
