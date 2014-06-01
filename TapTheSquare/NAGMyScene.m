@@ -52,18 +52,13 @@
     self = [super initWithSize:size];
 
     if (self) {
+        _gamesCount = -1;
+
         [FlurryAds setAdDelegate:self];
 
         [self authorizeLocalPlayer];
-
-        self.gamesCount = -1;
-        self.gameCenterAuthViewController = nil;
-        self.backgroundColor = [SKColor colorWithRed:0.388
-                                               green:0.259
-                                                blue:0.875
-                                               alpha:0];
-
         [self resetGameData];
+
         [self addChild:[self firstScreenLayer]];
     }
 
@@ -231,6 +226,11 @@
 #ifdef DEBUG
     NSLog(@"%s", __FUNCTION__);
 #endif
+
+    self.backgroundColor = [SKColor colorWithRed:0.388
+                                           green:0.259
+                                            blue:0.875
+                                           alpha:0];
 
     self.gamesCount++;
     self.firstScreenVisible = (self.gamesCount == 0);
