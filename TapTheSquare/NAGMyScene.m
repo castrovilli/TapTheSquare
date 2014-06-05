@@ -231,10 +231,7 @@
                           @0.1,
                           @0.08,
                           @0.06,
-                          @0.04,
-                          @0.02,
-                          @0.008,
-                          @0.006] mutableCopy];
+                          @0.04] mutableCopy];
 
     self.unusedCells = [NSMutableSet new];
     for (NSUInteger i = 0; i < [self fieldMaxCols]; i++) {
