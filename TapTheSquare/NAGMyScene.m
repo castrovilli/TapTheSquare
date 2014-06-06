@@ -26,7 +26,7 @@
 
 // таймер для генерации квадратиков
 @property NSTimer *timer;
-@property NSMutableArray *timerLevels;
+@property NSArray *timerLevels;
 @property NSUInteger timerTimeLevelIndex;
 
 // таймер для переключения уровней
@@ -223,20 +223,23 @@
     self.score = 0;
     self.cellPoints = 1ul;
     self.timerTimeLevelIndex = 0;
-    self.timerLevels = [@[@1.0,
-                          @0.8,
-                          @0.6,
-                          @0.4,
-                          @0.2,
-                          @0.1,
-                          @0.08,
-                          @0.06,
-                          @0.04] mutableCopy];
+    self.timerLevels = @[@1.0,
+                         @0.8,
+                         @0.6,
+                         @0.4,
+                         @0.2,
+                         @0.1,
+                         @0.08,
+                         @0.06,
+                         @0.04,
+                         @0.02];
 
     self.unusedCells = [NSMutableSet new];
     for (NSUInteger i = 0; i < [self fieldMaxCols]; i++) {
         for (NSUInteger j = 0; j < [self fieldMaxRows]; j++) {
-            NSString *cellName = [NSString stringWithFormat:@"%@_%@", @(i), @(j)];
+            NSString *cellName = [NSString stringWithFormat:@"%@_%@",
+                                                            @(i),
+                                                            @(j)];
             [self.unusedCells addObject:cellName];
         }
     }
@@ -373,7 +376,8 @@
         return deadPoint;
 
     u_int32_t index = arc4random_uniform(self.unusedCells.count);
-    NSString *randomCellName = [self.unusedCells allObjects][(NSUInteger)index];
+    NSString *randomCellName = [self
+            .unusedCells allObjects][(NSUInteger) index];
 
     if (randomCellName == nil)
         return deadPoint;
@@ -442,7 +446,9 @@
 
 //    добавляем надпись с кол-во очков ниже надписи с концом игры
     SKLabelNode *finalScoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
-    finalScoreLabel.text = [NSString stringWithFormat:@"%012lu", (unsigned long)self.score];
+    finalScoreLabel.text = [NSString stringWithFormat:@"%012lu",
+                                                      (unsigned long) self
+                                                              .score];
     finalScoreLabel.fontColor = [SKColor redColor];
     finalScoreLabel.fontSize = 27;
     finalScoreLabel
@@ -511,7 +517,8 @@
                                                     removeFromParent]];
 
     SKLabelNode *pointsLabelNode = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
-    pointsLabelNode.text = [NSString stringWithFormat:@"+%lu", (unsigned long)points];
+    pointsLabelNode.text = [NSString stringWithFormat:@"+%lu",
+                                                      (unsigned long) points];
     pointsLabelNode.fontSize = 27;
     pointsLabelNode.position = position;
     pointsLabelNode.fontColor = [SKColor yellowColor];
@@ -525,7 +532,8 @@
 - (void)updateScoreLabel
 {
     SKLabelNode *score = (SKLabelNode *) [self childNodeWithName:@"scoreLabel"];
-    score.text = [NSString stringWithFormat:@"Score: %012lu", (unsigned long)self.score];
+    score.text = [NSString stringWithFormat:@"Score: %012lu",
+                                            (unsigned long) self.score];
 }
 
 - (void)clearField
@@ -551,7 +559,8 @@
     playLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
     playLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     playLabel.name = @"playButton";
-    playLabel.position = CGPointMake([self screenWidth] / 2, [self screenHeight] / 2);
+    playLabel
+            .position = CGPointMake([self screenWidth] / 2, [self screenHeight] / 2);
     playLabel.fontColor = [SKColor colorWithRed:0.435
                                           green:0.914
                                            blue:0.447
@@ -565,12 +574,14 @@
     SKLabelNode *scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Cooper Std"];
     scoreLabel.fontColor = [SKColor yellowColor];
     scoreLabel.fontSize = 27;
-    scoreLabel.text = [NSString stringWithFormat:@"Score: %012lu", (unsigned long)self.score];
+    scoreLabel.text = [NSString stringWithFormat:@"Score: %012lu",
+                                                 (unsigned long) self.score];
     scoreLabel.zPosition = 1;
     scoreLabel.name = @"scoreLabel";
 
     CGRect accumulatedRect = scoreLabel.calculateAccumulatedFrame;
-    scoreLabel.position = CGPointMake(accumulatedRect.size.width / 2, [self screenHeight] - accumulatedRect.size.height);
+    scoreLabel.position = CGPointMake(accumulatedRect.size
+            .width / 2, [self screenHeight] - accumulatedRect.size.height);
 
     return scoreLabel;
 }
