@@ -28,6 +28,7 @@
 @property NSTimer *timer;
 @property NSArray *timerLevels;
 @property NSUInteger timerTimeLevelIndex;
+@property NSUInteger nextTimerLevelIndex;
 
 // таймер для переключения уровней
 @property NSTimer *levelChangeTimer;
@@ -87,7 +88,7 @@
 - (void)performTouches:(NSSet *)touches
 {
 #ifdef DEBUG
-    NSLog(@"%s", __FUNCTION__);
+//    NSLog(@"%s", __FUNCTION__);
 #endif
 
     for (UITouch *touch in touches) {
@@ -153,6 +154,12 @@
         } else if ([touchedNode.name isEqualToString:@"failTile"]) {
 //            удаляем всплывшие очки, иначе они просто "заморозятся" при удалении действий с ноды
             [[self childNodeWithName:@"pointsLabel"] removeFromParent];
+
+//            добавим подсветку на ноду на которой пользователь умер
+            SKSpriteNode *touchedSkull = (SKSpriteNode *)touchedNode;
+            touchedSkull.color = [SKColor redColor];
+            touchedSkull.blendMode = SKBlendModeAdd;
+            touchedSkull.colorBlendFactor = 1.0;
 
             [self gameOver];
         } else if ([touchedNode.name isEqualToString:@"standartTile"]) {
@@ -223,6 +230,7 @@
     self.score = 0;
     self.cellPoints = 1ul;
     self.timerTimeLevelIndex = 0;
+    self.nextTimerLevelIndex = 0;
     self.timerLevels = @[@1.0,
                          @0.8,
                          @0.6,
@@ -340,15 +348,20 @@
 
 //    изменяем интервалы/скорость заполнения игрового поля
     if (self.timerTimeLevelIndex == self.timerLevels.count - 1) {
-        self.timerTimeLevelIndex = 0;
+        self.nextTimerLevelIndex++;
 
-//        сбрасываем стоимость ячеек на первоначальное значение
-        self.cellPoints = 1ul;
+        if (self.nextTimerLevelIndex >= self.timerLevels.count - 1) {
+            self.nextTimerLevelIndex = self.timerLevels.count - 1;
+        } else self.timerTimeLevelIndex = self.nextTimerLevelIndex;
     } else {
         self.timerTimeLevelIndex++;
+    }
 
-        //    изменяем стоимость удаленной клетки
-        self.cellPoints = self.cellPoints << 1;
+//    изменяем стоимость очков
+    self.cellPoints += 2ul;
+
+    if (self.timerTimeLevelIndex == self.nextTimerLevelIndex) {
+        self.cellPoints *= 2;
     }
 
 //    отключаем текущий таймер
